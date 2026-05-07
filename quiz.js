@@ -313,22 +313,14 @@ async function showResult() {
           .then(res => { if (!res.ok) throw new Error(); return res.json(); })
           .then(d => {
             const p     = d.product;
-            const price = parseFloat(p.variants[0]?.price || 0);
-            const tags  = p.tags || "";
-            const body  = (p.body_html || "").replace(/<[^>]*>/g, "");
-
-            // m² from tags (painéis ripados: "2.89 m2")
-            const m2Tag = tags.match(/(\d+[.,]\d+)\s*m2/i);
-            // m² from body (papel de parede: "rolos de 1x10m")
-            const m2Roll = body.match(/(\d+)\s*x\s*(\d+)\s*m/i);
+            const variant   = p.variants[0] || {};
+            const price     = parseFloat(variant.price || 0);
+            const unitPrice = parseFloat(variant.unit_price || 0);
+            const refUnit   = variant.unit_price_measurement?.reference_unit;
 
             let priceLabel;
-            if (m2Tag) {
-              const m2 = parseFloat(m2Tag[1].replace(",", "."));
-              priceLabel = `${(price / m2).toFixed(2).replace(".", ",")} €/m²`;
-            } else if (m2Roll) {
-              const m2 = parseFloat(m2Roll[1]) * parseFloat(m2Roll[2]);
-              priceLabel = `${(price / m2).toFixed(2).replace(".", ",")} €/m²`;
+            if (unitPrice && refUnit === "m2") {
+              priceLabel = `${unitPrice.toFixed(2).replace(".", ",")} €/m²`;
             } else {
               priceLabel = `${price.toFixed(2).replace(".", ",")} €`;
             }
