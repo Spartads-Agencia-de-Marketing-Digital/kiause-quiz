@@ -312,12 +312,32 @@ async function showResult() {
         fetch(`https://kiause.pt/products/${handle}.json`)
           .then(res => { if (!res.ok) throw new Error(); return res.json(); })
           .then(d => {
-            const p = d.product;
+            const p     = d.product;
             const price = parseFloat(p.variants[0]?.price || 0);
-            const img   = p.images[0]?.src
-              ? p.images[0].src.replace(/(\.[^.]+)$/, '_400x$1')
+            const tags  = p.tags || "";
+            const body  = (p.body_html || "").replace(/<[^>]*>/g, "");
+
+            // m² from tags (painéis ripados: "2.89 m2")
+            const m2Tag = tags.match(/(\d+[.,]\d+)\s*m2/i);
+            // m² from body (papel de parede: "rolos de 1x10m")
+            const m2Roll = body.match(/(\d+)\s*x\s*(\d+)\s*m/i);
+
+            let priceLabel;
+            if (m2Tag) {
+              const m2 = parseFloat(m2Tag[1].replace(",", "."));
+              priceLabel = `${(price / m2).toFixed(2).replace(".", ",")} €/m²`;
+            } else if (m2Roll) {
+              const m2 = parseFloat(m2Roll[1]) * parseFloat(m2Roll[2]);
+              priceLabel = `${(price / m2).toFixed(2).replace(".", ",")} €/m²`;
+            } else {
+              priceLabel = `${price.toFixed(2).replace(".", ",")} €`;
+            }
+
+            const img = p.images[0]?.src
+              ? p.images[0].src.replace(/(\.[^.]+)$/, "_400x$1")
               : null;
-            return { name: p.title, img, price, url: `https://kiause.pt/products/${p.handle}` };
+
+            return { name: p.title, img, priceLabel, url: `https://kiause.pt/products/${p.handle}` };
           })
       )
     );
@@ -327,7 +347,7 @@ async function showResult() {
         ${p.img ? `<div class="product-img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy" /></div>` : ""}
         <div class="product-info">
           <p class="product-name">${p.name}</p>
-          ${p.price ? `<p class="product-price">${p.price.toFixed(2).replace('.', ',')} €</p>` : ""}
+          <p class="product-price">${p.priceLabel}</p>
         </div>
       </a>
     `).join("");
