@@ -72,10 +72,10 @@ const results = {
     emoji: "🤍",
     desc: "O teu espaço é um refúgio de calma. Adoras linhas limpas, muita luz natural e o princípio 'menos é mais'. Cada peça que escolhes tem um propósito.",
     img: "images/style_minimalista.png",
-    products: [
-      { name: "Painéis Ripados Branco Madeira", desc: "Elegância clean e textura suave para qualquer divisão.", emoji: "🪵", url: "https://kiause.pt/collections/paineis-ripados" },
-      { name: "Pavimento Vinílico Claro", desc: "Bege natural que amplifica a luz e o espaço.", emoji: "✨", url: "https://kiause.pt/collections/pavimentos" },
-      { name: "Adesivo Metro Branco", desc: "O detalhe perfeito para cozinhas e casas de banho nórdicas.", emoji: "🏠", url: "https://kiause.pt/collections/adesivos" },
+    productHandles: [
+      "painel-ripado-branco-madeira-2-49m",
+      "painel-ripado-fino-castanho-claro-2-49m",
+      "pavimento-vinilico-spc-click-castanho",
     ],
     collection: "https://kiause.pt/collections/paineis-ripados",
     ctaText: "Ver Coleção Minimalista",
@@ -86,10 +86,10 @@ const results = {
     emoji: "🖤",
     desc: "Tens personalidade forte e não tens medo de arriscar. O teu espaço reflete uma atitude urbana, com tons escuros, texturas brutas e um charme inegável.",
     img: "images/style_industrial.png",
-    products: [
-      { name: "Painéis Ripados Preto / Castanho", desc: "Dramáticos e sofisticados, transformam qualquer parede.", emoji: "🪵", url: "https://kiause.pt/collections/paineis-ripados" },
-      { name: "Papel de Parede Cimento", desc: "Textura de betão urbano sem obras.", emoji: "🏗️", url: "https://kiause.pt/collections/papel-de-parede" },
-      { name: "Adesivo Metro Preto", desc: "O toque industrial para cozinhas e zonas de serviço.", emoji: "⚫", url: "https://kiause.pt/collections/adesivos" },
+    productHandles: [
+      "painel-ripado-preto-castanho-2-49m",
+      "papel-de-parede-cimento-bege",
+      "painel-ripado-preto-2-49m",
     ],
     collection: "https://kiause.pt/collections/papel-de-parede",
     ctaText: "Ver Coleção Industrial",
@@ -100,10 +100,10 @@ const results = {
     emoji: "✨",
     desc: "Vives com elegância e atenção ao detalhe. O teu espaço é refinado, atemporal e inspira-se nos grandes palacetes e hotéis de luxo.",
     img: "images/style_classico.png",
-    products: [
-      { name: "Cabeceiras Suede Bege", desc: "Sofisticação de hotel 5 estrelas para o teu quarto.", emoji: "🛏️", url: "https://kiause.pt/collections/decoracao" },
-      { name: "Frisos Boiserie", desc: "O elemento clássico que define paredes de prestígio.", emoji: "🏛️", url: "https://kiause.pt/collections/decoracao" },
-      { name: "Painéis Pedra / Dourado", desc: "Textura de luxo com acabamento premium.", emoji: "⭐", url: "https://kiause.pt/collections/paineis-ripados" },
+    productHandles: [
+      "painel-ripado-preto-dourado-2-49m",
+      "papel-de-parede-texturizado-dourado",
+      "perfil-metalico-em-l-dourado-10mm",
     ],
     collection: "https://kiause.pt/collections/decoracao",
     ctaText: "Ver Coleção Clássica",
@@ -114,10 +114,10 @@ const results = {
     emoji: "🌿",
     desc: "A tua casa é um jardim interior. Valorizas a autenticidade, as texturas orgânicas e a ligação à natureza. O conforto vem de materiais verdadeiros.",
     img: "images/style_natural.png",
-    products: [
-      { name: "Painéis Castanho Claro / Pinho", desc: "Madeira natural que aquece qualquer divisão.", emoji: "🌿", url: "https://kiause.pt/collections/paineis-ripados" },
-      { name: "Jardim Vertical Buxus", desc: "Natureza na tua parede, sem manutenção.", emoji: "🌱", url: "https://kiause.pt/collections/decoracao" },
-      { name: "Adesivos Padrão Português", desc: "Autenticidade e cultura numa só peça.", emoji: "🇵🇹", url: "https://kiause.pt/collections/adesivos" },
+    productHandles: [
+      "painel-ripado-fino-castanho-claro-2-49m",
+      "papel-de-parede-tropical-verde",
+      "divisoria-de-ambiente-pvc-padrao-madeira-pinho-7cmx7cm-com-2-8-metros",
     ],
     collection: "https://kiause.pt/collections/paineis-ripados",
     ctaText: "Ver Coleção Natural",
@@ -266,13 +266,13 @@ function showForm() {
 }
 
 // ---------- SHOW RESULT ----------
-function showResult() {
+async function showResult() {
   hide(formSection);
   show(resultSection);
   scrollTop();
 
-  const winner  = getWinner();
-  const r       = results[winner];
+  const winner = getWinner();
+  const r      = results[winner];
 
   const resultHeader = document.getElementById("resultHeader");
   const resultBody   = document.getElementById("resultBody");
@@ -285,35 +285,70 @@ function showResult() {
     </div>
   `;
 
-  const productsHtml = r.products.map(p => `
-    <a class="product-card" href="${p.url}" target="_blank" rel="noopener">
-      <div class="product-info">
-        <p class="product-name">${p.name}</p>
-        <p class="product-desc">${p.desc}</p>
-      </div>
-    </a>
-  `).join("");
-
-  resultBody.innerHTML = `
-    <p class="result-section-title">✦ O teu estilo</p>
+  const baseBody = (productsHtml) => `
+    <p class="result-section-title">O teu estilo</p>
     <h2 class="result-section-heading">Olá, ${userName}! Como conseguir o teu look com a Kiause</h2>
-
     <div class="products-grid">${productsHtml}</div>
-
     <div class="cta-block">
       <h3>${r.ctaText}</h3>
       <p>${r.ctaDesc}</p>
-      <a href="${r.collection}" target="_blank" class="btn-coral">Explorar produtos →</a>
+      <a href="${r.collection}" target="_blank" class="btn-coral">Ver toda a coleção →</a>
       <br>
       <span class="discount-badge">10% de desconto na 1ª compra com código: QUIZ10</span>
     </div>
-
     <div class="result-restart">
       <button class="btn-ghost" id="restartBtn">Repetir o quiz</button>
     </div>
   `;
 
-  document.getElementById("restartBtn").addEventListener("click", () => {
+  // Loading state
+  resultBody.innerHTML = baseBody(`<div class="products-loading"><span></span><span></span><span></span></div>`);
+  bindRestartBtn();
+
+  // Fetch real products from Shopify public API
+  try {
+    const products = await Promise.all(
+      r.productHandles.map(handle =>
+        fetch(`https://kiause.pt/products/${handle}.json`)
+          .then(res => { if (!res.ok) throw new Error(); return res.json(); })
+          .then(d => {
+            const p = d.product;
+            const price = parseFloat(p.variants[0]?.price || 0);
+            const img   = p.images[0]?.src
+              ? p.images[0].src.replace(/(\.[^.]+)$/, '_400x$1')
+              : null;
+            return { name: p.title, img, price, url: `https://kiause.pt/products/${p.handle}` };
+          })
+      )
+    );
+
+    const productsHtml = products.map(p => `
+      <a class="product-card" href="${p.url}" target="_blank" rel="noopener">
+        ${p.img ? `<div class="product-img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy" /></div>` : ""}
+        <div class="product-info">
+          <p class="product-name">${p.name}</p>
+          ${p.price ? `<p class="product-price">${p.price.toFixed(2).replace('.', ',')} €</p>` : ""}
+        </div>
+      </a>
+    `).join("");
+
+    resultBody.innerHTML = baseBody(productsHtml);
+  } catch {
+    // fallback: link to collection
+    const fallback = `
+      <div class="products-fallback">
+        <p>Descobre os produtos da coleção na loja Kiause.</p>
+        <a href="${r.collection}" target="_blank" class="btn-coral" style="margin-top:12px">Ver produtos →</a>
+      </div>`;
+    resultBody.innerHTML = baseBody(fallback);
+  }
+
+  bindRestartBtn();
+}
+
+function bindRestartBtn() {
+  const btn = document.getElementById("restartBtn");
+  if (btn) btn.addEventListener("click", () => {
     currentQ = 0;
     answers  = [];
     userName = "";
