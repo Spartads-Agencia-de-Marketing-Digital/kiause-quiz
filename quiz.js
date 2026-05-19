@@ -10,41 +10,41 @@ const questions = [
     num: "Pergunta 1 de 5",
     title: "Que paleta de cores te faz sentir em casa?",
     options: [
-      { letter: "A", text: "Branco, cinza suave e bege, clean e luminoso", value: "A" },
-      { letter: "B", text: "Preto, carvão e metálicos, sofisticado e bold", value: "B" },
-      { letter: "C", text: "Creme, dourado e castanho suave, quente e refinado", value: "C" },
-      { letter: "D", text: "Verde, terra, ocre e madeira natural, orgânico e vivo", value: "D" },
+      { letter: "A", text: "Branco, cinza suave e bege", value: "A" },
+      { letter: "B", text: "Preto, carvão e metálicos", value: "B" },
+      { letter: "C", text: "Creme, dourado e castanho", value: "C" },
+      { letter: "D", text: "Verde, terra e ocre", value: "D" },
     ],
   },
   {
     id: 2,
     type: "list",
     num: "Pergunta 2 de 5",
-    title: "Qual material preferes nas paredes e pisos?",
+    title: "Que tipo de superfície combina mais contigo?",
     options: [
-      { letter: "A", text: "Vidro, superfícies lisas e ripas brancas", value: "A" },
-      { letter: "B", text: "Cimento, ferro e ripas escuras", value: "B" },
-      { letter: "C", text: "Veludo, mármore e boiseries elegantes", value: "C" },
-      { letter: "D", text: "Madeira rústica, palhinha e texturas naturais", value: "D" },
+      { letter: "A", text: "Lisa e uniforme", value: "A" },
+      { letter: "B", text: "Com veio de madeira", value: "B" },
+      { letter: "C", text: "Efeito pedra ou cimento", value: "C" },
+      { letter: "D", text: "Textura natural e rústica", value: "D" },
     ],
   },
   {
     id: 3,
     type: "list",
     num: "Pergunta 3 de 5",
-    title: "Como é o teu fim de semana ideal em casa?",
+    title: "Como descreves o ambiente ideal da tua casa?",
     options: [
-      { letter: "A", text: "Ler com chá, numa divisão limpa e cheia de luz", value: "A" },
-      { letter: "B", text: "Jantar moderno com cocktails e boa música", value: "B" },
-      { letter: "C", text: "Sentir-me num hotel de luxo sem sair de casa", value: "C" },
-      { letter: "D", text: "Jardinar, cuidar das plantas e sentir a natureza", value: "D" },
+      { letter: "A", text: "Calmo e organizado", value: "A" },
+      { letter: "B", text: "Ousado e com atitude", value: "B" },
+      { letter: "C", text: "Elegante e cuidado", value: "C" },
+      { letter: "D", text: "Descontraído e com vida", value: "D" },
     ],
   },
   {
     id: 4,
     type: "image",
     num: "Pergunta 4 de 5",
-    title: "Qual destes espaços te atrai mais? ✨",
+    title: "Qual destes espaços combina mais contigo?",
     options: [
       { letter: "A", text: "Ripas brancas com luz natural", value: "A", img: "images/style_minimalista.png", alt: "Minimalista Nórdico" },
       { letter: "B", text: "Painéis escuros e textura cimento", value: "B", img: "images/style_industrial.png", alt: "Industrial Urbano" },
@@ -58,9 +58,9 @@ const questions = [
     num: "Pergunta 5 de 5",
     title: "Que sensação queres sentir cada vez que entras em casa?",
     options: [
-      { letter: "A", text: "Tranquilidade: um espaço que acalma a mente", value: "A" },
-      { letter: "B", text: "Atitude: um espaço que transmite personalidade forte", value: "B" },
-      { letter: "C", text: "Sofisticação: um espaço que impressiona e eleva", value: "C" },
+      { letter: "A", text: "Tranquilidade: chegar e desligar", value: "A" },
+      { letter: "B", text: "Atitude: sentir que o espaço é mesmo meu", value: "B" },
+      { letter: "C", text: "Sofisticação: sentir orgulho no que vejo", value: "C" },
       { letter: "D", text: "Aconchego: um espaço que abraça e reconecta", value: "D" },
     ],
   },
@@ -77,7 +77,7 @@ const results = {
       "painel-ripado-fino-castanho-claro-2-49m",
       "pavimento-vinilico-spc-click-castanho",
     ],
-    collection: "https://kiause.pt/collections/paineis-ripados",
+    collection: "https://kiause.pt/collections/estilo-minimalista-nordico/?utm_source=meta&utm_medium=paid_social&utm_campaign=quiz",
     ctaText: "Ver Coleção Minimalista",
     ctaDesc: "Descobre os produtos Kiause que vão dar vida ao teu estilo nórdico.",
   },
@@ -91,7 +91,7 @@ const results = {
       "papel-de-parede-cimento-bege",
       "painel-ripado-preto-2-49m",
     ],
-    collection: "https://kiause.pt/collections/papel-de-parede",
+    collection: "https://kiause.pt/collections/estilo-de-decoracao-industrial-urbano/?utm_source=meta&utm_medium=paid_social&utm_campaign=quiz",
     ctaText: "Ver Coleção Industrial",
     ctaDesc: "Os produtos Kiause para um estilo urbano que não passa despercebido.",
   },
@@ -105,7 +105,7 @@ const results = {
       "papel-de-parede-texturizado-dourado",
       "perfil-metalico-em-l-dourado-10mm",
     ],
-    collection: "https://kiause.pt/collections/decoracao",
+    collection: "https://kiause.pt/collections/estilo-de-decoracao-classico-elegante/?utm_source=meta&utm_medium=paid_social&utm_campaign=quiz",
     ctaText: "Ver Coleção Clássica",
     ctaDesc: "Descobre os produtos Kiause que trazem elegância atemporal à tua casa.",
   },
@@ -119,7 +119,7 @@ const results = {
       "papel-de-parede-tropical-verde",
       "divisoria-de-ambiente-pvc-padrao-madeira-pinho-7cmx7cm-com-2-8-metros",
     ],
-    collection: "https://kiause.pt/collections/paineis-ripados",
+    collection: "https://kiause.pt/collections/estilo-de-decoracao-natural-boho/?utm_source=meta&utm_medium=paid_social&utm_campaign=quiz",
     ctaText: "Ver Coleção Natural",
     ctaDesc: "Painéis e produtos Kiause que trazem a natureza para dentro de casa.",
   },
@@ -193,7 +193,6 @@ function renderQuestion() {
 
   quizContent.innerHTML = `
     <div class="question-block">
-      <p class="question-num">${q.num}</p>
       <h2 class="question-title">${q.title}</h2>
       ${optionsHtml}
       <div class="quiz-nav">
