@@ -254,12 +254,20 @@ function showForm() {
     e.preventDefault();
     const name  = document.getElementById("userName").value.trim();
     const email = document.getElementById("userEmail").value.trim();
-    if (!name || !email) return;
+    const phone = document.getElementById("userPhone").value.trim();
+    if (!name || !email || !phone) return;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       document.getElementById("userEmail").style.borderColor = "#e53935";
       return;
     }
     userName = name;
+    const styleKey = getWinner();
+    const styleName = results[styleKey]?.name || styleKey;
+    fetch("https://script.google.com/macros/s/AKfycbxMkYEcjxUb-7zEctbFKi3BdOC4OrhvwrFRt5peaYggGC8xc5ummhVj9v-ir767ujvs-Q/exec", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ name, email, phone, style: styleName })
+    }).catch(() => {});
     showResult();
   });
 }
@@ -328,7 +336,7 @@ async function showResult() {
               ? p.images[0].src.replace(/(\.[^.]+)$/, "_400x$1")
               : null;
 
-            return { name: p.title, img, priceLabel, url: `https://kiause.pt/products/${p.handle}` };
+            return { name: p.title, img, priceLabel, url: `https://kiause.pt/products/${p.handle}?utm_source=meta&utm_medium=paid_social&utm_campaign=quiz` };
           })
       )
     );
